@@ -10,7 +10,8 @@ exports.signup = async (req, res) => {
     const token = jwt.sign({ userId: newUser.id }, process.env.SECRET_KEY, { expiresIn: '1h' });
     res.status(201).json({ message: 'User created', token });
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    console.error('Signup error:', err);
+    res.status(400).json({ error: 'Error creating user' });
   }
 };
 
@@ -18,14 +19,15 @@ exports.login = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ where: { email } });
-    if (!user) return res.status(404).json({ error: 'User not found' });
+    if (!user) return res.status(401).json({ error: 'Invalid email or password' });
 
     const match = await bcrypt.compare(password, user.password);
-    if (!match) return res.status(401).json({ error: 'Invalid password' });
+    if (!match) return res.status(401).json({ error: 'Invalid email or password' });
 
     const token = jwt.sign({ userId: user.id }, process.env.SECRET_KEY, { expiresIn: '1h' });
     res.json({ message: 'Login successful', token });
   } catch (err) {
-    res.status(500).json({ error: 'Login error', detail: err.message });
+    console.error('Login error:', err);
+    res.status(500).json({ error: 'Login error' });
   }
 };

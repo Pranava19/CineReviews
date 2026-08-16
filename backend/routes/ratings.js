@@ -36,6 +36,11 @@ router.get('/ratings/:movieId', async (req, res) => {
 // Add or update a rating
 router.post('/ratings', authenticateToken, async (req, res) => {
   const { movieId, score } = req.body;
+  const numericScore = Number(score);
+
+  if (score === undefined || score === null || isNaN(numericScore) || numericScore < 1 || numericScore > 10) {
+    return res.status(400).json({ error: 'Rating score must be a number between 1 and 10' });
+  }
 
   try {
     // Upsert the rating (insert or update)

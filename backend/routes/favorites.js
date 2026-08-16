@@ -33,7 +33,8 @@ router.post('/favorites', authenticateToken, async (req, res) => {
     });
     res.status(201).json({ message: 'Movie added to favorites', favoriteItem });
   } catch (err) {
-    res.status(500).json({ error: 'Failed to add movie to favorites', detail: err.message });
+    console.error('Error adding movie to favorites:', err);
+    res.status(500).json({ error: 'Failed to add movie to favorites' });
   }
 });
 

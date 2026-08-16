@@ -4,8 +4,6 @@ const api = {
   search: '/search',
   watchlist: '/watchlist',
   favorites: '/favorites',
-  tmdbBase: 'https://api.themoviedb.org/3',
-  tmdbKey: '115e33c14008ba1af27e83986081b3f5',
 };
 
 const loadingMessage = document.getElementById('loading-message');
@@ -134,7 +132,7 @@ function displayMovies(movies) {
 
 async function fetchMoviesByIds(movieIds) {
   const promises = movieIds.map(id =>
-    fetch(`${api.tmdbBase}/movie/${id}?api_key=${api.tmdbKey}`)
+    fetch(`${api.base}/movieDetails?id=${id}`)
       .then(res => res.json())
       .catch(() => null)
   );

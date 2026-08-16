@@ -130,8 +130,19 @@ router.get('/fullMovieDetails', async (req, res) => {
     // Combine TMDB and OMDB ratings with the database ratings
     const tmdbRating = details.data.vote_average || 0;
     const tmdbVotes = details.data.vote_count || 0;
-    const imdbRating = omdbData ? parseFloat(omdbData.imdbRating) : 0;
-    const imdbVotes = omdbData ? parseInt(omdbData.imdbVotes.replace(/,/g, '')) : 0;
+
+    let imdbRating = 0;
+    let imdbVotes = 0;
+    if (omdbData) {
+      if (omdbData.imdbRating && omdbData.imdbRating !== 'N/A') {
+        const parsedRating = parseFloat(omdbData.imdbRating);
+        if (!isNaN(parsedRating)) imdbRating = parsedRating;
+      }
+      if (omdbData.imdbVotes && omdbData.imdbVotes !== 'N/A') {
+        const parsedVotes = parseInt(omdbData.imdbVotes.replace(/,/g, ''), 10);
+        if (!isNaN(parsedVotes)) imdbVotes = parsedVotes;
+      }
+    }
 
     // Sum up all ratings and votes
     dbRatings.forEach(rating => {
@@ -161,7 +172,6 @@ router.get('/fullMovieDetails', async (req, res) => {
   }
 });
 
-module.exports = router;
 router.get('/watch-providers', async (req, res) => {
   const movieId = req.query.id;
   if (!movieId) return res.status(400).json({ error: 'Movie ID is required' });

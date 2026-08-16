@@ -31,7 +31,8 @@ router.post('/watchlist', authenticateToken, async (req, res) => {
     });
     res.status(201).json({ message: 'Movie added to watchlist', watchlistItem });
   } catch (err) {
-    res.status(500).json({ error: 'Failed to add movie to watchlist', detail: err.message });
+    console.error('Error adding movie to watchlist:', err);
+    res.status(500).json({ error: 'Failed to add movie to watchlist' });
   }
 });
 
