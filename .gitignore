@@ -4,11 +4,16 @@ node_modules/
 
 # Environment variables & secrets
 .env
+.env.*
 *.env
 backend/.env
 
+# Build outputs
+dist/
+build/
+
 # Logs
-logs
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -19,6 +24,10 @@ yarn-error.log*
 Thumbs.db
 .vscode/
 .idea/
+
+# Credential & text files (with robots.txt exception)
+*.txt
+!robots.txt
 
 # Uploads / Temp storage
 backend/uploads/*

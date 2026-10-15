@@ -8,7 +8,7 @@
 
 body {
   font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #12082B; /* Deep dark purple from movieDetail.css */
+  background-color: #12082B; /* Deep dark purple from movieDetails.css */
   color: #EAEAEA; /* Softer white for text */
   padding: 20px;
   line-height: 1.6;
@@ -67,7 +67,7 @@ header {
 }
 
 header h1 {
-  color: #FCE57F; /* Soft yellow accent from movieDetail.css */
+  color: #FCE57F; /* Soft yellow accent from movieDetails.css */
   font-size: 2.8em;
   font-weight: 700;
   margin-bottom: 15px;
@@ -94,7 +94,7 @@ nav {
 
 .btn {
   padding: 12px 28px; /* Slightly more padding */
-  background-image: linear-gradient(145deg, #E91E63, #C2185B); /* Pink gradient from movieDetail.css */
+  background-image: linear-gradient(145deg, #E91E63, #C2185B); /* Pink gradient from movieDetails.css */
   color: white;
   font-size: 1.05em;
   font-weight: 600;
@@ -232,7 +232,7 @@ nav {
   padding: 40px 20px;
 }
 
-#loading-message::before { /* Spinner like movieDetail.css */
+#loading-message::before { /* Spinner like movieDetails.css */
   content: '';
   display: block;
   width: 40px;

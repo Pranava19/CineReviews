@@ -6,13 +6,7 @@
 [![JavaScript](https://img.shields.io/badge/Frontend-HTML5%2FCSS3%2FJS-yellow.svg)]()
 [![Live App](https://img.shields.io/badge/Render-Live%20App-brightgreen.svg)](https://cinereviews.onrender.com)
 
-**CineReviews** is a full-stack movie discovery, rating, review, and personal watch-management web platform crafted for cinephiles. It integrates live movie metadata from **TMDB** and **OMDb**, calculates weighted hybrid rating metrics, and allows users to manage watchlists, favorites, reviews, and custom user profiles.
-
----
-
-## 🚀 Live Demo
-
-- **Live App**: [https://cinereviews.onrender.com](https://cinereviews.onrender.com)
+**CineReviews** is a full-stack movie discovery, rating, review, and personal watch-management web platform crafted for cinephiles. It integrates live movie metadata from **TMDB** and **OMDb**, calculates weighted hybrid rating metrics, and allows users to manage watchlists, favorites, reviews, and custom user profiles with Cloudinary-backed avatars.
 
 ---
 
@@ -21,7 +15,7 @@
 ### 🍿 Movie Discovery & Search
 - **Regional & Global Discovery**: Real-time trending and popular movie lists with poster art and backdrop previews.
 - **Instant Search**: Search movies by title with instant results.
-- **Detailed Movie Pages**: Includes synopsis, release date, runtime, genres, top cast members, trailers (YouTube), and streaming providers (OTT platforms in India).
+- **Detailed Movie Pages**: View synopsis, release date, runtime, genres, top cast members, trailers (YouTube), and streaming providers (OTT platforms).
 
 ### 📊 Weighted Combined Rating Engine
 - **Hybrid Score Calculation**: Dynamically computes a weighted average score aggregating:
@@ -31,14 +25,14 @@
 
 ### 🔐 Authentication & Profile Management
 - **User Accounts**: Registration and login secured via **JWT** tokens and **bcrypt** password hashing.
-- **Custom Profiles**: Edit display name, full name, bio, favorite genre, location, birthdate, and avatar image.
-- **Avatar Uploads**: Profile picture upload handling with validation and file storage via **Multer**.
+- **Custom Profiles**: Edit display name, full name, bio, favorite genre, location, and birthdate.
+- **Cloudinary Avatars**: Fast profile picture uploads processed in-memory via **Multer** and hosted securely on **Cloudinary**.
 
 ### ⭐ Reviews, Watchlist & Favorites
-- **Star Ratings**: Submit or update 1-5 star ratings per movie.
+- **Star Ratings**: Submit or update 1-10 star ratings per movie.
 - **Discussion & Comments**: Post public comments and reviews on any movie. Users can delete their own comments.
 - **Watchlist**: Track movies you plan to watch with real-time status checking (`isInWatchlist`).
-- **Favorites**: Save favorite movies to your profile dashboard.
+- **Favorites**: Save favorite movies to your personal dashboard.
 
 ---
 
@@ -47,108 +41,72 @@
 | Layer | Technologies Used |
 |---|---|
 | **Frontend** | HTML5, CSS3 (Glassmorphism, Animations, Responsive Layouts), Vanilla JavaScript (ES6+ Fetch API) |
-| **Backend** | Node.js, Express.js (REST API Architecture) |
-| **Database** | MySQL, Sequelize ORM (`mysql2`) |
+| **Backend** | Node.js, Express.js (REST API Architecture, Same-Origin Serving) |
+| **Database** | MySQL / TiDB Serverless, Sequelize ORM (`mysql2`) with TLS |
 | **External APIs** | TMDB (The Movie Database API), OMDb (Open Movie Database API) |
-| **Security** | JSON Web Tokens (`jsonwebtoken`), `bcryptjs`, `helmet`, `express-rate-limit`, CORS |
-| **File Handling** | `multer` (Profile avatar storage & MIME-type validation) |
-| **Deployment** | Render |
+| **Security** | JSON Web Tokens (`jsonwebtoken`), `bcryptjs`, `helmet`, `express-rate-limit` |
+| **Media Storage** | Cloudinary API (In-memory upload stream via `multer`) |
+| **Deployment** | Render Web Service |
 
 ---
 
-## 📁 Repository Structure
+## 📁 Project Structure
 
 ```
 CineReviews/
 ├── backend/
 │   ├── config/
-│   │   └── db.js              # MySQL connection & Sequelize initialization
-│   ├── controllers/
-│   │   └── authController.js  # Registration & Login handler logic
+│   │   └── db.js              # Database connection & Sequelize initialization (TLS support)
 │   ├── middleware/
-│   │   ├── authMiddleware.js  # JWT Verification middleware
-│   │   └── upload.js          # Multer file upload setup
+│   │   └── authMiddleware.js  # JWT Verification middleware
 │   ├── models/
-│   │   ├── User.js            # User model (auth, profile details, avatar)
-│   │   ├── Comments.js        # Movie comments & author association
+│   │   ├── User.js            # User model (auth, profile details, Cloudinary avatar)
+│   │   ├── Comments.js        # Movie comments & associations
 │   │   ├── Favorites.js       # User favorite movies
-│   │   ├── Ratings.js         # User movie rating scores
+│   │   ├── Ratings.js         # User movie ratings (1-10)
 │   │   └── Watchlist.js       # User movie watchlist
 │   ├── routes/
 │   │   ├── auth.js            # /signup & /login API routes
-│   │   ├── profile.js         # Profile fetch & update (/profile)
-│   │   ├── tmdb.js            # Movie search, details & hybrid ratings engine
-│   │   ├── watchlist.js       # Watchlist CRUD endpoints
-│   │   ├── favorites.js       # Favorites CRUD endpoints
 │   │   ├── comments.js        # Comments CRUD endpoints
-│   │   └── ratings.js         # Ratings calculation & upsert endpoints
-│   ├── uploads/               # Directory for user profile pictures
-│   ├── app.js                 # Express application entry point & middleware stack
-│   ├── package.json           # Dependencies & startup scripts
-│   └── .env                   # Environment config (git-ignored)
+│   │   ├── favorites.js       # Favorites CRUD endpoints
+│   │   ├── profile.js         # Profile fetch & Cloudinary avatar upload
+│   │   ├── ratings.js         # Ratings calculation & upsert endpoints
+│   │   ├── tmdb.js            # Movie search, details & hybrid ratings engine
+│   │   └── watchlist.js       # Watchlist CRUD endpoints
+│   ├── uploads/
+│   │   └── .gitkeep           # Placeholder directory
+│   ├── .env.example           # Example environment variable names
+│   ├── app.js                 # Express server & static frontend serving
+│   └── package.json           # Backend dependencies & startup scripts
 ├── frontend/
+│   ├── css/
+│   │   ├── home.css           # Dashboard layout & movie cards styling
+│   │   ├── movieDetails.css   # Movie details page, trailer & review styling
+│   │   ├── profile.css        # Profile page & modal styles
+│   │   └── style.css          # Landing page & authentication card styles
+│   ├── js/
+│   │   ├── home.js            # Movie discovery & live search logic
+│   │   └── movieDetails.js    # Movie page rendering, ratings & comments logic
+│   ├── home.html              # Main dashboard for movie browsing & search
 │   ├── index.html             # Landing page with splash animation
 │   ├── login.html             # Login form
-│   ├── signup.html            # Registration form
-│   ├── home.html              # Main dashboard for movie browsing & search
-│   ├── movieDetails.html      # Full movie details, trailer, cast & reviews page
+│   ├── movieDetails.html      # Full movie details, trailer, cast & reviews
 │   ├── profile.html           # User profile & watchlist management
-│   ├── style.css              # Landing, login & global UI styles
-│   ├── home.css               # Dashboard layout styles
-│   ├── movieDetail.css        # Movie detail page layout & review styles
-│   ├── profile.css            # Profile page & modal styles
-│   ├── homescript.js          # Home page interactivity & search logic
-│   ├── movieDetails.js        # Movie page data rendering & comment submission
-│   └── script.js              # Global helper functions
+│   └── signup.html            # Registration form
 ├── .gitignore                 # Excluded files & directories
 └── README.md                  # Project documentation
 ```
 
 ---
 
-## 🔌 API Endpoint Documentation
-
-### Authentication
-- `POST /signup` — Register a new user (`username`, `email`, `password`)
-- `POST /login` — Authenticate user and receive JWT token (`email`, `password`)
-
-### Profile (`Authorization: Bearer <token>`)
-- `GET /profile` — Retrieve current user profile
-- `PUT /profile` — Update user profile details and profile picture (Multipart Form Data)
-
-### Movies & Ratings (TMDB / OMDb Integration)
-- `GET /popular-movies` — Get popular Tamil & regional movies
-- `GET /search?query=:query` — Search movies by title
-- `GET /movieDetails?id=:id` — Get basic movie details from TMDB
-- `GET /fullMovieDetails?id=:id` — Get combined metadata (TMDB cast/trailer + OMDb IMDb rating + local user score + watch providers)
-- `GET /watch-providers?id=:id` — Get regional streaming providers for a movie
-
-### Watchlist & Favorites (`Authorization: Bearer <token>`)
-- `GET /watchlist` — Get all items in user's watchlist
-- `POST /watchlist` — Add movie to watchlist (`movieId`)
-- `DELETE /watchlist/:movieId` — Remove movie from watchlist
-- `GET /watchlist/check?movieId=:id` — Check if movie is in watchlist
-- `GET /favorites` — Get all user favorites
-- `POST /favorites` — Add movie to favorites (`movieId`)
-- `DELETE /favorites/:movieId` — Remove movie from favorites
-- `GET /favorites/check?movieId=:id` — Check if movie is in favorites
-
-### Comments & Ratings
-- `GET /api/comments/:movieId` — Fetch public comments for a movie
-- `POST /api/comments` — Add a comment (`movieId`, `text`) *(Auth required)*
-- `DELETE /api/comments/:id` — Delete a comment *(Author auth required)*
-- `GET /api/ratings/:movieId` — Get community rating total and vote count
-- `POST /api/ratings` — Upsert user rating (`movieId`, `score`) *(Auth required)*
-
----
-
-## 💻 Local Installation & Setup Guide
+## 💻 Local Setup Guide
 
 ### 1. Prerequisites
 - **Node.js** (v18 or higher)
-- **MySQL** Database Server
+- **MySQL** or **TiDB Serverless** database
 - **TMDB API Key** ([Get your key](https://www.themoviedb.org/settings/api))
 - **OMDb API Key** ([Get your key](http://www.omdbapi.com/apikey.aspx))
+- **Cloudinary Account** ([Get your credentials](https://cloudinary.com/))
 
 ### 2. Clone the Repository
 ```bash
@@ -163,27 +121,52 @@ cd backend
 npm install
 ```
 
-Create a `.env` file in the `backend/` directory:
-```env
-PORT=5000
-SECRET_KEY=your_jwt_secret_key
-DB_HOST=localhost
-DB_PORT=3306
-DB_USER=your_mysql_username
-DB_PASSWORD=your_mysql_password
-DB_NAME=cinereviews_db
-TMDB_API_KEY=your_tmdb_api_key
-OMDB_API_KEY=your_omdb_api_key
+Create a `.env` file in the `backend/` directory based on `.env.example`:
+```bash
+cp .env.example .env
 ```
 
-Start the backend server:
+Start the server:
 ```bash
 npm start
 ```
-The backend server will automatically connect to MySQL, initialize the `cinereviews_db` database, synchronize Sequelize models, and start listening on `http://localhost:5000`.
+The server will connect to the database, synchronize Sequelize models, and serve both the API and frontend on `http://localhost:5000`.
 
-### 4. Frontend Setup
-Open `frontend/index.html` in your browser or run a local development server (such as Live Server in VS Code).
+### 4. Frontend Access
+Once the backend is running, open `http://localhost:5000/` in your browser. All API calls are same-origin.
+
+---
+
+## 🔐 Environment Variables
+
+The following environment variables are required in `backend/.env` (see `backend/.env.example`):
+
+| Variable Name | Description |
+|---|---|
+| `PORT` | Server listening port (default: `5000`) |
+| `DB_HOST` | Database hostname (e.g. localhost or TiDB gateway) |
+| `DB_PORT` | Database port (e.g. `3306` or `4000`) |
+| `DB_USER` | Database username |
+| `DB_PASSWORD` | Database user password |
+| `DB_NAME` | Database schema name |
+| `DB_SSL` | Enable TLS/SSL connection (`true` / `false`) |
+| `SECRET_KEY` | Secret key for JWT signing & verification |
+| `TMDB_API_KEY` | The Movie Database API v3 key |
+| `OMDB_API_KEY` | Open Movie Database API key |
+| `CLOUDINARY_CLOUD_NAME` | Cloudinary product environment cloud name |
+| `CLOUDINARY_API_KEY` | Cloudinary API key |
+| `CLOUDINARY_API_SECRET` | Cloudinary API secret |
+
+---
+
+## 🚀 Deployment Note
+
+CineReviews is configured for single-service deployment on **Render**:
+- **Root Directory**: `backend`
+- **Build Command**: `npm install`
+- **Start Command**: `npm start`
+- **Health Check Path**: `/health`
+- **Static Frontend**: Express serves the `frontend/` directory statically at root `/` via same-origin requests.
 
 ---
 
