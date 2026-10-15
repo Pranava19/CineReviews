@@ -1,20 +1,18 @@
-# 🎬 CinerViews
+# 🎬 CineReviews
 
 [![Node.js](https://img.shields.io/badge/Node.js-v18%2B-green.svg)](https://nodejs.org/)
 [![Express.js](https://img.shields.io/badge/Express-v5.0-blue.svg)](https://expressjs.com/)
 [![MySQL](https://img.shields.io/badge/MySQL-Sequelize-orange.svg)](https://sequelize.org/)
 [![JavaScript](https://img.shields.io/badge/Frontend-HTML5%2FCSS3%2FJS-yellow.svg)]()
-[![Live Backend](https://img.shields.io/badge/Render-Deployed-brightgreen.svg)](https://movie-backend-1g7r.onrender.com)
-[![Live App](https://img.shields.io/badge/Netlify-Live%20App-blue.svg)](https://cinemindss.netlify.app)
+[![Live App](https://img.shields.io/badge/Render-Live%20App-brightgreen.svg)](https://cinereviews.onrender.com)
 
-**CinerViews** is a full-stack movie discovery, rating, review, and personal watch-management web platform crafted for cinephiles. It integrates live movie metadata from **TMDB** and **OMDb**, calculates weighted hybrid rating metrics, and allows users to manage watchlists, favorites, reviews, and custom user profiles.
+**CineReviews** is a full-stack movie discovery, rating, review, and personal watch-management web platform crafted for cinephiles. It integrates live movie metadata from **TMDB** and **OMDb**, calculates weighted hybrid rating metrics, and allows users to manage watchlists, favorites, reviews, and custom user profiles.
 
 ---
 
 ## 🚀 Live Demo
 
-- **Frontend App**: [https://cinemindss.netlify.app](https://cinemindss.netlify.app)
-- **Backend API**: [https://movie-backend-1g7r.onrender.com](https://movie-backend-1g7r.onrender.com)
+- **Live App**: [https://cinereviews.onrender.com](https://cinereviews.onrender.com)
 
 ---
 
@@ -54,7 +52,7 @@
 | **External APIs** | TMDB (The Movie Database API), OMDb (Open Movie Database API) |
 | **Security** | JSON Web Tokens (`jsonwebtoken`), `bcryptjs`, `helmet`, `express-rate-limit`, CORS |
 | **File Handling** | `multer` (Profile avatar storage & MIME-type validation) |
-| **Deployment** | Netlify (Frontend), Render (Backend) |
+| **Deployment** | Render |
 
 ---
 
@@ -189,6 +187,15 @@ Open `frontend/index.html` in your browser or run a local development server (su
 
 ---
 
+## 👤 Author
+
+- **Name**: Pranav
+- **GitHub**: [https://github.com/Pranava19](https://github.com/Pranava19)
+- **Repository**: [https://github.com/Pranava19/CineReviews](https://github.com/Pranava19/CineReviews)
+- **College**: PSG College of Technology
+
+---
+
 ## 📜 License
 
-Distributed under the MIT License. See `LICENSE` for more details.
+Distributed under the MIT License.

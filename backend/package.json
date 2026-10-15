@@ -1,6 +1,7 @@
 {
-  "name": "movie",
+  "name": "cinereviews",
   "version": "1.0.0",
+  "author": "Pranav",
   "main": "app.js",
   "scripts": {
     "start": "node app.js"
