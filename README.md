@@ -1,4 +1,4 @@
-# 🎬 CineReviews (Cinemind)
+# 🎬 CinerViews
 
 [![Node.js](https://img.shields.io/badge/Node.js-v18%2B-green.svg)](https://nodejs.org/)
 [![Express.js](https://img.shields.io/badge/Express-v5.0-blue.svg)](https://expressjs.com/)
@@ -7,7 +7,7 @@
 [![Live Backend](https://img.shields.io/badge/Render-Deployed-brightgreen.svg)](https://movie-backend-1g7r.onrender.com)
 [![Live App](https://img.shields.io/badge/Netlify-Live%20App-blue.svg)](https://cinemindss.netlify.app)
 
-**CineReviews** (also known as *Cinemind*) is a full-stack movie discovery, rating, review, and personal watch-management web platform crafted for cinephiles. It integrates live movie metadata from **TMDB** and **OMDb**, calculates weighted hybrid rating metrics, and allows users to manage watchlists, favorites, reviews, and custom user profiles.
+**CinerViews** is a full-stack movie discovery, rating, review, and personal watch-management web platform crafted for cinephiles. It integrates live movie metadata from **TMDB** and **OMDb**, calculates weighted hybrid rating metrics, and allows users to manage watchlists, favorites, reviews, and custom user profiles.
 
 ---
 
