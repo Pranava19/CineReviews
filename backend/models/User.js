@@ -16,10 +16,4 @@ const User = sequelize.define('User', {
   location: { type: DataTypes.STRING, allowNull: true },
   birthdate: { type: DataTypes.DATE, allowNull: true }
 });
-
-// Optionally, you can add a method to get the full URL if needed
-User.prototype.getProfileImageUrl = function() {
-  return this.profileImage ? `http://localhost:5000/${this.profileImage}` : null;
-};
-
 module.exports = User;

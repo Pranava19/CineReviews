@@ -1,5 +1,5 @@
 const api = {
-  base: 'https://movie-backend-1g7r.onrender.com',
+  base: '',
   popularMovies: '/popular-movies',
   search: '/search',
   watchlist: '/watchlist',

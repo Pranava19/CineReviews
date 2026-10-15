@@ -1,4 +1,4 @@
-const API_BASE = 'https://movie-backend-1g7r.onrender.com';
+const API_BASE = '';
 let currentMovieId = null;
 
 function showAlert(message, type = 'info', options = {}) {

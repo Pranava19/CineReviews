@@ -3,15 +3,18 @@ const express = require('express');
 const authenticateToken = require('../middleware/authMiddleware');
 const User = require('../models/User');
 const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
-const BACKEND_URL = "https://movie-backend-1g7r.onrender.com";
+const cloudinary = require('cloudinary').v2;
 
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 // Set up multer for handling file uploads
 const upload = multer({
-  dest: 'uploads/', // Folder where the uploaded files will be stored
-  limits: { fileSize: 10 * 1024 * 1024 }, // File size limit: 10MB
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 2 * 1024 * 1024 }, // File size limit: 2MB
   fileFilter: (req, file, cb) => {
     if (!file.mimetype.startsWith('image/')) {
       return cb(new Error('File must be an image'), false);
@@ -36,15 +39,13 @@ router.get('/profile', authenticateToken, async (req, res) => {
       favoriteGenre: user.favoriteGenre,
       location: user.location,
       birthdate: user.birthdate,
-// In your backend response
-profileImage: user.profileImage ? `${BACKEND_URL}/${user.profileImage.replace(/\\/g, '/')}` : null
+      profileImage: user.profileImage || null
     });
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch profile' });
   }
 });
 
-// PUT profile - Update user profile (including image)
 // PUT profile - Update user profile (including image)
 router.put('/profile', authenticateToken, upload.single('profileImage'), async (req, res) => {
   try {
@@ -69,8 +70,22 @@ router.put('/profile', authenticateToken, upload.single('profileImage'), async (
 
     // Handle file upload if a new image is uploaded
     if (req.file) {
-      const filePath = path.join('uploads', req.file.filename);
-      user.profileImage = filePath; // Save the file path to the database
+      const result = await new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          {
+            folder: 'cinereviews/avatars',
+            cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+            api_key: process.env.CLOUDINARY_API_KEY,
+            api_secret: process.env.CLOUDINARY_API_SECRET,
+          },
+          (error, result) => {
+            if (error) return reject(error);
+            resolve(result);
+          }
+        );
+        stream.end(req.file.buffer);
+      });
+      user.profileImage = result.secure_url;
     }
 
     // Save the updated user profile
@@ -82,6 +97,5 @@ router.put('/profile', authenticateToken, upload.single('profileImage'), async (
     res.status(500).json({ error: 'Failed to update profile' });
   }
 });
-
 
 module.exports = router;
